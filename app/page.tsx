@@ -1,8 +1,10 @@
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Link from "next/link";
+import PlaylistPicker from "@/components/PlaylistPicker";
 
 export default async function Home() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8">
@@ -12,12 +14,10 @@ export default async function Home() {
       </p>
 
       {session ? (
-        <div className="text-center">
-          <p className="mb-4">Signed in as {session.user?.name}</p>
-          <Link
-            href="/api/auth/signout"
-            className="text-red-500 underline"
-          >
+        <div className="w-full max-w-md flex flex-col items-center gap-6">
+          <p className="text-gray-400">Signed in as {session.user?.name}</p>
+          <PlaylistPicker />
+          <Link href="/api/auth/signout" className="text-red-500 underline text-sm">
             Sign out
           </Link>
         </div>
